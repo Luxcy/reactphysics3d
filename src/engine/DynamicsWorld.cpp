@@ -192,6 +192,7 @@ void DynamicsWorld::integrateRigidBodiesPositions() {
             mConstrainedOrientations[indexArray] = currentOrientation +
                                                    Quaternion(0, newAngVelocity) *
                                                    currentOrientation * decimal(0.5) * mTimeStep;
+            assert(mConstrainedOrientations[indexArray].length() > decimal(0.7));
         }
     }
 }

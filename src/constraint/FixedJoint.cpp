@@ -348,5 +348,8 @@ void FixedJoint::solvePositionConstraint(const ConstraintSolverData& constraintS
     // Update the body position/orientation of body 2
     q2 += Quaternion(0, w2) * q2 * decimal(0.5);
     q2.normalize();
+
+    assert(q1.length() > decimal(0.7));
+    assert(q2.length() > decimal(0.7));
 }
 

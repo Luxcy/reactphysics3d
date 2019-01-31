@@ -676,6 +676,9 @@ void SliderJoint::solvePositionConstraint(const ConstraintSolverData& constraint
             q2.normalize();
         }
     }
+
+    assert(q1.length() > decimal(0.7));
+    assert(q2.length() > decimal(0.7));
 }
 
 // Enable/Disable the limits of the joint

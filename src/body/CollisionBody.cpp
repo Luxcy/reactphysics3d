@@ -403,6 +403,8 @@ void CollisionBody::setTransform(const Transform& transform) {
     // Update the transform of the body
     mTransform = transform;
 
+    assert(mTransform.getOrientation().length() > decimal(0.7));
+
     // Update the broad-phase state of the body
     updateBroadPhaseState();
 
