@@ -29,6 +29,7 @@
 #include "collision/shapes/CollisionShape.h"
 #include "engine/DynamicsWorld.h"
 #include "utils/Profiler.h"
+#include <cmath>
 
 // We want to use the ReactPhysics3D namespace
 using namespace reactphysics3d;
@@ -190,6 +191,7 @@ void RigidBody::setCenterOfMassLocal(const Vector3& centerOfMassLocal) {
 
     // Update the linear velocity of the center of mass
     mLinearVelocity += mAngularVelocity.cross(mCenterOfMassWorld - oldCenterOfMass);
+    assert(!std::isnan(mLinearVelocity.x) && !std::isnan(mLinearVelocity.y) && !std::isnan(mLinearVelocity.z));
 
     RP3D_LOG(mLogger, Logger::Level::Information, Logger::Category::Body,
              "Body " + std::to_string(mID) + ": Set centerOfMassLocal=" + centerOfMassLocal.to_string());
@@ -395,6 +397,7 @@ void RigidBody::setLinearVelocity(const Vector3& linearVelocity) {
 
     // Update the linear velocity of the current body state
     mLinearVelocity = linearVelocity;
+    assert(!std::isnan(mLinearVelocity.x) && !std::isnan(mLinearVelocity.y) && !std::isnan(mLinearVelocity.z));
 
     // If the linear velocity is not zero, awake the body
     if (mLinearVelocity.lengthSquare() > decimal(0.0)) {
@@ -443,6 +446,7 @@ void RigidBody::setTransform(const Transform& transform) {
 
     // Update the linear velocity of the center of mass
     mLinearVelocity += mAngularVelocity.cross(mCenterOfMassWorld - oldCenterOfMass);
+    assert(!std::isnan(mLinearVelocity.x) && !std::isnan(mLinearVelocity.y) && !std::isnan(mLinearVelocity.z));
 
     // Update the world inverse inertia tensor
     updateInertiaTensorInverseWorld();
@@ -539,6 +543,7 @@ void RigidBody::recomputeMassInformation() {
 
     // Update the linear velocity of the center of mass
     mLinearVelocity += mAngularVelocity.cross(mCenterOfMassWorld - oldCenterOfMass);
+    assert(!std::isnan(mLinearVelocity.x) && !std::isnan(mLinearVelocity.y) && !std::isnan(mLinearVelocity.z));
 }
 
 // Update the broad-phase state for this body (because it has moved for instance)

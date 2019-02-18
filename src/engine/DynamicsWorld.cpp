@@ -174,6 +174,7 @@ void DynamicsWorld::integrateRigidBodiesPositions() {
             uint indexArray = bodies[b]->mArrayIndex;
             Vector3 newLinVelocity = mConstrainedLinearVelocities[indexArray];
             Vector3 newAngVelocity = mConstrainedAngularVelocities[indexArray];
+            assert(!isnan(newLinVelocity.x) && !isnan(newLinVelocity.y) && !isnan(newLinVelocity.z));
 
             // Add the split impulse velocity from Contact Solver (only used
             // to update the position)
@@ -182,6 +183,7 @@ void DynamicsWorld::integrateRigidBodiesPositions() {
                 newLinVelocity += mSplitLinearVelocities[indexArray];
                 newAngVelocity += mSplitAngularVelocities[indexArray];
             }
+            assert(!isnan(newLinVelocity.x) && !isnan(newLinVelocity.y) && !isnan(newLinVelocity.z));
 
             // Get current position and orientation of the body
             const Vector3& currentPosition = bodies[b]->mCenterOfMassWorld;
@@ -215,6 +217,7 @@ void DynamicsWorld::updateBodiesState() {
             // Update the linear and angular velocity of the body
             bodies[b]->mLinearVelocity = mConstrainedLinearVelocities[index];
             bodies[b]->mAngularVelocity = mConstrainedAngularVelocities[index];
+            assert(!isnan(bodies[b]->mLinearVelocity.x) && !isnan(bodies[b]->mLinearVelocity.y) && !isnan(bodies[b]->mLinearVelocity.z));
 
             // Update the position of the center of mass of the body
             bodies[b]->mCenterOfMassWorld = mConstrainedPositions[index];
@@ -304,6 +307,7 @@ void DynamicsWorld::integrateRigidBodiesVelocities() {
             mConstrainedAngularVelocities[indexBody] = bodies[b]->getAngularVelocity() +
                                         mTimeStep * bodies[b]->getInertiaTensorInverseWorld() *
                                         bodies[b]->mExternalTorque;
+            assert(!isnan(mConstrainedLinearVelocities[indexBody].x) && !isnan(mConstrainedLinearVelocities[indexBody].y) && !isnan(mConstrainedLinearVelocities[indexBody].z));
 
             // If the gravity has to be applied to this rigid body
             if (bodies[b]->isGravityEnabled() && mIsGravityEnabled) {
@@ -311,6 +315,7 @@ void DynamicsWorld::integrateRigidBodiesVelocities() {
                 // Integrate the gravity force
                 mConstrainedLinearVelocities[indexBody] += mTimeStep * bodies[b]->mMassInverse *
                         bodies[b]->getMass() * mGravity;
+                assert(!isnan(mConstrainedLinearVelocities[indexBody].x) && !isnan(mConstrainedLinearVelocities[indexBody].y) && !isnan(mConstrainedLinearVelocities[indexBody].z));
             }
 
             // Apply the velocity damping
@@ -332,6 +337,7 @@ void DynamicsWorld::integrateRigidBodiesVelocities() {
             decimal angularDamping = pow(decimal(1.0) - angDampingFactor, mTimeStep);
             mConstrainedLinearVelocities[indexBody] *= linearDamping;
             mConstrainedAngularVelocities[indexBody] *= angularDamping;
+            assert(!isnan(mConstrainedLinearVelocities[indexBody].x) && !isnan(mConstrainedLinearVelocities[indexBody].y) && !isnan(mConstrainedLinearVelocities[indexBody].z));
 
             indexBody++;
         }

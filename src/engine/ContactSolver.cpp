@@ -153,8 +153,10 @@ void ContactSolver::initializeForIsland(Island* island) {
 
         // Get the velocities of the bodies
         const Vector3& v1 = mLinearVelocities[mContactConstraints[mNbContactManifolds].indexBody1];
+        assert(!isnan(v1.x) && !isnan(v1.y) && !isnan(v1.z));
         const Vector3& w1 = mAngularVelocities[mContactConstraints[mNbContactManifolds].indexBody1];
         const Vector3& v2 = mLinearVelocities[mContactConstraints[mNbContactManifolds].indexBody2];
+        assert(!isnan(v2.x) && !isnan(v2.y) && !isnan(v2.z));
         const Vector3& w2 = mAngularVelocities[mContactConstraints[mNbContactManifolds].indexBody2];
 
         // For each  contact point of the contact manifold
@@ -357,6 +359,7 @@ void ContactSolver::warmStart() {
                 mLinearVelocities[mContactConstraints[c].indexBody1].x -= mContactConstraints[c].massInverseBody1 * impulsePenetration.x;
                 mLinearVelocities[mContactConstraints[c].indexBody1].y -= mContactConstraints[c].massInverseBody1 * impulsePenetration.y;
                 mLinearVelocities[mContactConstraints[c].indexBody1].z -= mContactConstraints[c].massInverseBody1 * impulsePenetration.z;
+                assert(!isnan(mLinearVelocities[mContactConstraints[c].indexBody1].x) && !isnan(mLinearVelocities[mContactConstraints[c].indexBody1].y) && !isnan(mLinearVelocities[mContactConstraints[c].indexBody1].z));
 
                 mAngularVelocities[mContactConstraints[c].indexBody1].x -= mContactPoints[contactPointIndex].i1TimesR1CrossN.x * mContactPoints[contactPointIndex].penetrationImpulse;
                 mAngularVelocities[mContactConstraints[c].indexBody1].y -= mContactPoints[contactPointIndex].i1TimesR1CrossN.y * mContactPoints[contactPointIndex].penetrationImpulse;
@@ -366,6 +369,7 @@ void ContactSolver::warmStart() {
                 mLinearVelocities[mContactConstraints[c].indexBody2].x += mContactConstraints[c].massInverseBody2 * impulsePenetration.x;
                 mLinearVelocities[mContactConstraints[c].indexBody2].y += mContactConstraints[c].massInverseBody2 * impulsePenetration.y;
                 mLinearVelocities[mContactConstraints[c].indexBody2].z += mContactConstraints[c].massInverseBody2 * impulsePenetration.z;
+                assert(!isnan(mLinearVelocities[mContactConstraints[c].indexBody2].x) && !isnan(mLinearVelocities[mContactConstraints[c].indexBody2].y) && !isnan(mLinearVelocities[mContactConstraints[c].indexBody2].z));
 
                 mAngularVelocities[mContactConstraints[c].indexBody2].x += mContactPoints[contactPointIndex].i2TimesR2CrossN.x * mContactPoints[contactPointIndex].penetrationImpulse;
                 mAngularVelocities[mContactConstraints[c].indexBody2].y += mContactPoints[contactPointIndex].i2TimesR2CrossN.y * mContactPoints[contactPointIndex].penetrationImpulse;
@@ -411,10 +415,12 @@ void ContactSolver::warmStart() {
             // Update the velocities of the body 1 by applying the impulse P
             mLinearVelocities[mContactConstraints[c].indexBody1] -= mContactConstraints[c].massInverseBody1 * linearImpulseBody2;
             mAngularVelocities[mContactConstraints[c].indexBody1] += mContactConstraints[c].inverseInertiaTensorBody1 * angularImpulseBody1;
+            assert(!isnan(mLinearVelocities[mContactConstraints[c].indexBody1].x) && !isnan(mLinearVelocities[mContactConstraints[c].indexBody1].y) && !isnan(mLinearVelocities[mContactConstraints[c].indexBody1].z));
 
             // Update the velocities of the body 1 by applying the impulse P
             mLinearVelocities[mContactConstraints[c].indexBody2] += mContactConstraints[c].massInverseBody2 * linearImpulseBody2;
             mAngularVelocities[mContactConstraints[c].indexBody2] += mContactConstraints[c].inverseInertiaTensorBody2 * angularImpulseBody2;
+            assert(!isnan(mLinearVelocities[mContactConstraints[c].indexBody2].x) && !isnan(mLinearVelocities[mContactConstraints[c].indexBody2].y) && !isnan(mLinearVelocities[mContactConstraints[c].indexBody2].z));
 
             // ------ Second friction constraint at the center of the contact manifold ----- //
 
@@ -433,6 +439,7 @@ void ContactSolver::warmStart() {
             mLinearVelocities[mContactConstraints[c].indexBody1].x -= mContactConstraints[c].massInverseBody1 * linearImpulseBody2.x;
             mLinearVelocities[mContactConstraints[c].indexBody1].y -= mContactConstraints[c].massInverseBody1 * linearImpulseBody2.y;
             mLinearVelocities[mContactConstraints[c].indexBody1].z -= mContactConstraints[c].massInverseBody1 * linearImpulseBody2.z;
+            assert(!isnan(mLinearVelocities[mContactConstraints[c].indexBody1].x) && !isnan(mLinearVelocities[mContactConstraints[c].indexBody1].y) && !isnan(mLinearVelocities[mContactConstraints[c].indexBody1].z));
 
             mAngularVelocities[mContactConstraints[c].indexBody1] += mContactConstraints[c].inverseInertiaTensorBody1 * angularImpulseBody1;
 
@@ -440,6 +447,7 @@ void ContactSolver::warmStart() {
             mLinearVelocities[mContactConstraints[c].indexBody2].x += mContactConstraints[c].massInverseBody2 * linearImpulseBody2.x;
             mLinearVelocities[mContactConstraints[c].indexBody2].y += mContactConstraints[c].massInverseBody2 * linearImpulseBody2.y;
             mLinearVelocities[mContactConstraints[c].indexBody2].z += mContactConstraints[c].massInverseBody2 * linearImpulseBody2.z;
+            assert(!isnan(mLinearVelocities[mContactConstraints[c].indexBody2].x) && !isnan(mLinearVelocities[mContactConstraints[c].indexBody2].y) && !isnan(mLinearVelocities[mContactConstraints[c].indexBody2].z));
 
             mAngularVelocities[mContactConstraints[c].indexBody2] += mContactConstraints[c].inverseInertiaTensorBody2 * angularImpulseBody2;
 
@@ -498,8 +506,10 @@ void ContactSolver::solve() {
 
         // Get the constrained velocities
         const Vector3& v1 = mLinearVelocities[mContactConstraints[c].indexBody1];
+        assert(!isnan(mLinearVelocities[mContactConstraints[c].indexBody1].x) && !isnan(mLinearVelocities[mContactConstraints[c].indexBody1].y) && !isnan(mLinearVelocities[mContactConstraints[c].indexBody1].z));
         const Vector3& w1 = mAngularVelocities[mContactConstraints[c].indexBody1];
         const Vector3& v2 = mLinearVelocities[mContactConstraints[c].indexBody2];
+        assert(!isnan(mLinearVelocities[mContactConstraints[c].indexBody2].x) && !isnan(mLinearVelocities[mContactConstraints[c].indexBody2].y) && !isnan(mLinearVelocities[mContactConstraints[c].indexBody2].z));
         const Vector3& w2 = mAngularVelocities[mContactConstraints[c].indexBody2];
 
         for (short int i=0; i<mContactConstraints[c].nbContacts; i++) {
@@ -546,6 +556,7 @@ void ContactSolver::solve() {
             mLinearVelocities[mContactConstraints[c].indexBody1].x -= mContactConstraints[c].massInverseBody1 * linearImpulse.x;
             mLinearVelocities[mContactConstraints[c].indexBody1].y -= mContactConstraints[c].massInverseBody1 * linearImpulse.y;
             mLinearVelocities[mContactConstraints[c].indexBody1].z -= mContactConstraints[c].massInverseBody1 * linearImpulse.z;
+            assert(!isnan(mLinearVelocities[mContactConstraints[c].indexBody1].x) && !isnan(mLinearVelocities[mContactConstraints[c].indexBody1].y) && !isnan(mLinearVelocities[mContactConstraints[c].indexBody1].z));
 
             mAngularVelocities[mContactConstraints[c].indexBody1].x -= mContactPoints[contactPointIndex].i1TimesR1CrossN.x * deltaLambda;
             mAngularVelocities[mContactConstraints[c].indexBody1].y -= mContactPoints[contactPointIndex].i1TimesR1CrossN.y * deltaLambda;
@@ -555,6 +566,7 @@ void ContactSolver::solve() {
             mLinearVelocities[mContactConstraints[c].indexBody2].x += mContactConstraints[c].massInverseBody2 * linearImpulse.x;
             mLinearVelocities[mContactConstraints[c].indexBody2].y += mContactConstraints[c].massInverseBody2 * linearImpulse.y;
             mLinearVelocities[mContactConstraints[c].indexBody2].z += mContactConstraints[c].massInverseBody2 * linearImpulse.z;
+            assert(!isnan(mLinearVelocities[mContactConstraints[c].indexBody2].x) && !isnan(mLinearVelocities[mContactConstraints[c].indexBody2].y) && !isnan(mLinearVelocities[mContactConstraints[c].indexBody2].z));
 
             mAngularVelocities[mContactConstraints[c].indexBody2].x += mContactPoints[contactPointIndex].i2TimesR2CrossN.x * deltaLambda;
             mAngularVelocities[mContactConstraints[c].indexBody2].y += mContactPoints[contactPointIndex].i2TimesR2CrossN.y * deltaLambda;
@@ -567,8 +579,10 @@ void ContactSolver::solve() {
 
                 // Split impulse (position correction)
                 const Vector3& v1Split = mSplitLinearVelocities[mContactConstraints[c].indexBody1];
+                assert(!isnan(v1Split.x) && !isnan(v1Split.y) && !isnan(v1Split.z));
                 const Vector3& w1Split = mSplitAngularVelocities[mContactConstraints[c].indexBody1];
                 const Vector3& v2Split = mSplitLinearVelocities[mContactConstraints[c].indexBody2];
+                assert(!isnan(v2Split.x) && !isnan(v2Split.y) && !isnan(v2Split.z));
                 const Vector3& w2Split = mSplitAngularVelocities[mContactConstraints[c].indexBody2];
 
                 //Vector3 deltaVSplit = v2Split + w2Split.cross(mContactPoints[contactPointIndex].r2) - v1Split - w1Split.cross(mContactPoints[contactPointIndex].r1);
@@ -597,6 +611,7 @@ void ContactSolver::solve() {
                 mSplitLinearVelocities[mContactConstraints[c].indexBody1].x -= mContactConstraints[c].massInverseBody1 * linearImpulse.x;
                 mSplitLinearVelocities[mContactConstraints[c].indexBody1].y -= mContactConstraints[c].massInverseBody1 * linearImpulse.y;
                 mSplitLinearVelocities[mContactConstraints[c].indexBody1].z -= mContactConstraints[c].massInverseBody1 * linearImpulse.z;
+                assert(!isnan(mSplitLinearVelocities[mContactConstraints[c].indexBody1].x) && !isnan(mSplitLinearVelocities[mContactConstraints[c].indexBody1].y) && !isnan(mSplitLinearVelocities[mContactConstraints[c].indexBody1].z));
 
                 mSplitAngularVelocities[mContactConstraints[c].indexBody1].x -= mContactPoints[contactPointIndex].i1TimesR1CrossN.x * deltaLambdaSplit;
                 mSplitAngularVelocities[mContactConstraints[c].indexBody1].y -= mContactPoints[contactPointIndex].i1TimesR1CrossN.y * deltaLambdaSplit;
@@ -606,6 +621,7 @@ void ContactSolver::solve() {
                 mSplitLinearVelocities[mContactConstraints[c].indexBody2].x += mContactConstraints[c].massInverseBody2 * linearImpulse.x;
                 mSplitLinearVelocities[mContactConstraints[c].indexBody2].y += mContactConstraints[c].massInverseBody2 * linearImpulse.y;
                 mSplitLinearVelocities[mContactConstraints[c].indexBody2].z += mContactConstraints[c].massInverseBody2 * linearImpulse.z;
+                assert(!isnan(mSplitLinearVelocities[mContactConstraints[c].indexBody2].x) && !isnan(mSplitLinearVelocities[mContactConstraints[c].indexBody2].y) && !isnan(mSplitLinearVelocities[mContactConstraints[c].indexBody2].z));
 
                 mSplitAngularVelocities[mContactConstraints[c].indexBody2].x += mContactPoints[contactPointIndex].i2TimesR2CrossN.x * deltaLambdaSplit;
                 mSplitAngularVelocities[mContactConstraints[c].indexBody2].y += mContactPoints[contactPointIndex].i2TimesR2CrossN.y * deltaLambdaSplit;
@@ -653,6 +669,7 @@ void ContactSolver::solve() {
         mLinearVelocities[mContactConstraints[c].indexBody1].x -= mContactConstraints[c].massInverseBody1 * linearImpulseBody2.x;
         mLinearVelocities[mContactConstraints[c].indexBody1].y -= mContactConstraints[c].massInverseBody1 * linearImpulseBody2.y;
         mLinearVelocities[mContactConstraints[c].indexBody1].z -= mContactConstraints[c].massInverseBody1 * linearImpulseBody2.z;
+        assert(!isnan(mLinearVelocities[mContactConstraints[c].indexBody1].x) && !isnan(mLinearVelocities[mContactConstraints[c].indexBody1].y) && !isnan(mLinearVelocities[mContactConstraints[c].indexBody1].z));
 
         mAngularVelocities[mContactConstraints[c].indexBody1] += mContactConstraints[c].inverseInertiaTensorBody1 * angularImpulseBody1;
 
@@ -660,6 +677,7 @@ void ContactSolver::solve() {
         mLinearVelocities[mContactConstraints[c].indexBody2].x += mContactConstraints[c].massInverseBody2 * linearImpulseBody2.x;
         mLinearVelocities[mContactConstraints[c].indexBody2].y += mContactConstraints[c].massInverseBody2 * linearImpulseBody2.y;
         mLinearVelocities[mContactConstraints[c].indexBody2].z += mContactConstraints[c].massInverseBody2 * linearImpulseBody2.z;
+        assert(!isnan(mLinearVelocities[mContactConstraints[c].indexBody2].x) && !isnan(mLinearVelocities[mContactConstraints[c].indexBody2].y) && !isnan(mLinearVelocities[mContactConstraints[c].indexBody2].z));
 
         mAngularVelocities[mContactConstraints[c].indexBody2] += mContactConstraints[c].inverseInertiaTensorBody2 * angularImpulseBody2;
 
@@ -703,12 +721,14 @@ void ContactSolver::solve() {
         mLinearVelocities[mContactConstraints[c].indexBody1].y -= mContactConstraints[c].massInverseBody1 * linearImpulseBody2.y;
         mLinearVelocities[mContactConstraints[c].indexBody1].z -= mContactConstraints[c].massInverseBody1 * linearImpulseBody2.z;
         mAngularVelocities[mContactConstraints[c].indexBody1] += mContactConstraints[c].inverseInertiaTensorBody1 * angularImpulseBody1;
+        assert(!isnan(mLinearVelocities[mContactConstraints[c].indexBody1].x) && !isnan(mLinearVelocities[mContactConstraints[c].indexBody1].y) && !isnan(mLinearVelocities[mContactConstraints[c].indexBody1].z));
 
         // Update the velocities of the body 2 by applying the impulse P
         mLinearVelocities[mContactConstraints[c].indexBody2].x += mContactConstraints[c].massInverseBody2 * linearImpulseBody2.x;
         mLinearVelocities[mContactConstraints[c].indexBody2].y += mContactConstraints[c].massInverseBody2 * linearImpulseBody2.y;
         mLinearVelocities[mContactConstraints[c].indexBody2].z += mContactConstraints[c].massInverseBody2 * linearImpulseBody2.z;
         mAngularVelocities[mContactConstraints[c].indexBody2] += mContactConstraints[c].inverseInertiaTensorBody2 * angularImpulseBody2;
+        assert(!isnan(mLinearVelocities[mContactConstraints[c].indexBody2].x) && !isnan(mLinearVelocities[mContactConstraints[c].indexBody2].y) && !isnan(mLinearVelocities[mContactConstraints[c].indexBody2].z));
 
         // ------ Twist friction constraint at the center of the contact manifol ------ //
 
