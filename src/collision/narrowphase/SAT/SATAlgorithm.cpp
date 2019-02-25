@@ -101,6 +101,8 @@ bool SATAlgorithm::testCollisionSphereVsConvexPolyhedron(NarrowPhaseInfo* narrow
         }
     }
 
+    assert(minPenetrationDepth < DECIMAL_LARGEST);
+
     if (reportContacts) {
 
         const Vector3 minFaceNormal = polyhedron->getFaceNormal(minFaceIndex);
@@ -118,6 +120,7 @@ bool SATAlgorithm::testCollisionSphereVsConvexPolyhedron(NarrowPhaseInfo* narrow
                                                         minPenetrationDepth, normalWorld);
 
         // Create the contact info object
+        assert(minPenetrationDepth < DECIMAL_LARGEST);
         narrowPhaseInfo->addContactPoint(normalWorld, minPenetrationDepth,
                                          isSphereShape1 ? contactPointSphereLocal : contactPointPolyhedronLocal,
                                          isSphereShape1 ? contactPointPolyhedronLocal : contactPointSphereLocal);
@@ -203,6 +206,8 @@ bool SATAlgorithm::testCollisionCapsuleVsConvexPolyhedron(NarrowPhaseInfo* narro
         }
     }
 
+    assert(minPenetrationDepth < DECIMAL_LARGEST);
+
     // For each direction that is the cross product of the capsule inner segment and an edge of the polyhedron
     for (uint e = 0; e < polyhedron->getNbHalfEdges(); e += 2) {
 
@@ -244,6 +249,8 @@ bool SATAlgorithm::testCollisionCapsuleVsConvexPolyhedron(NarrowPhaseInfo* narro
             }
         }
     }
+
+    assert(minPenetrationDepth < DECIMAL_LARGEST);
 
     // Convert the inner capsule segment points into the polyhedron local-space
     const Transform capsuleToPolyhedronTransform = polyhedronToCapsuleTransform.getInverse();
@@ -290,6 +297,7 @@ bool SATAlgorithm::testCollisionCapsuleVsConvexPolyhedron(NarrowPhaseInfo* narro
                                                         minPenetrationDepth, normalWorld);
 
             // Create the contact point
+            assert(minPenetrationDepth < DECIMAL_LARGEST);
             narrowPhaseInfo->addContactPoint(normalWorld, minPenetrationDepth,
                                                 isCapsuleShape1 ? contactPointCapsule : closestPointPolyhedronEdge,
                                                 isCapsuleShape1 ? closestPointPolyhedronEdge : contactPointCapsule);
@@ -329,6 +337,8 @@ decimal SATAlgorithm::computeEdgeVsCapsuleInnerSegmentPenetrationDepth(const Con
         const Vector3 capsuleSupportPoint = capsule->getLocalSupportPointWithMargin(-outAxis);
         const Vector3 capsuleSupportPointToEdgePoint = pointOnPolyhedronEdge - capsuleSupportPoint;
         penetrationDepth = capsuleSupportPointToEdgePoint.dot(outAxis);
+
+        assert(penetrationDepth < DECIMAL_LARGEST);
     }
 
     return penetrationDepth;
@@ -436,6 +446,7 @@ bool SATAlgorithm::computeCapsulePolyhedronFaceContactPoints(uint referenceFaceI
 
 
 			// Create the contact point
+            assert(penetrationDepth < DECIMAL_LARGEST);
             narrowPhaseInfo->addContactPoint(normalWorld, penetrationDepth,
                                              isCapsuleShape1 ? contactPointCapsule : contactPointPolyhedron,
                                              isCapsuleShape1 ? contactPointPolyhedron : contactPointCapsule);
@@ -601,6 +612,8 @@ bool SATAlgorithm::testCollisionConvexPolyhedronVsConvexPolyhedron(NarrowPhaseIn
                 // If the shapes were overlapping on the previous axis and still seem to overlap in this frame
                 if (lastFrameCollisionInfo->wasColliding && penetrationDepth > decimal(0.0)) {
 
+                    assert(penetrationDepth < DECIMAL_LARGEST);
+
                     // Compute the closest points between the two edges (in the local-space of poylhedron 2)
                     Vector3 closestPointPolyhedron1Edge, closestPointPolyhedron2Edge;
                     computeClosestPointBetweenTwoSegments(edge1A, edge1B, edge2A, edge2B,
@@ -642,6 +655,7 @@ bool SATAlgorithm::testCollisionConvexPolyhedronVsConvexPolyhedron(NarrowPhaseIn
                         penetrationDepth, normalWorld);
 
                         // Create the contact point
+                        assert(penetrationDepth < DECIMAL_LARGEST);
                         narrowPhaseInfo->addContactPoint(normalWorld, penetrationDepth,
                          closestPointPolyhedron1EdgeLocalSpace, closestPointPolyhedron2Edge);
 
@@ -711,6 +725,8 @@ bool SATAlgorithm::testCollisionConvexPolyhedronVsConvexPolyhedron(NarrowPhaseIn
         isMinPenetrationFaceNormalPolyhedron1 = false;
     }
 
+    assert(minPenetrationDepth < DECIMAL_LARGEST);
+
     // Test the cross products of edges of polyhedron 1 with edges of polyhedron 2 for separating axis
     for (uint i=0; i < polyhedron1->getNbHalfEdges(); i += 2) {
 
@@ -767,6 +783,8 @@ bool SATAlgorithm::testCollisionConvexPolyhedronVsConvexPolyhedron(NarrowPhaseIn
             }
         }
     }
+
+    assert(minPenetrationDepth < DECIMAL_LARGEST);
 
     // Here we know the shapes are overlapping on a given minimum separating axis.
     // Now, we will clip the shapes along this axis to find the contact points
@@ -837,6 +855,7 @@ bool SATAlgorithm::testCollisionConvexPolyhedronVsConvexPolyhedron(NarrowPhaseIn
             assert(normalWorld.length() > decimal(0.7));
 
             // Create the contact point
+            assert(minPenetrationDepth < DECIMAL_LARGEST);
             narrowPhaseInfo->addContactPoint(normalWorld, minPenetrationDepth,
                                              closestPointPolyhedron1EdgeLocalSpace, closestPointPolyhedron2Edge);
         }
@@ -957,6 +976,7 @@ bool SATAlgorithm::computePolyhedronVsPolyhedronFaceContactPoints(bool isMinPene
                                     penetrationDepth, outWorldNormal);
 
             // Create a new contact point
+            assert(minPenetrationDepth < DECIMAL_LARGEST);
             narrowPhaseInfo->addContactPoint(outWorldNormal, penetrationDepth,
                              isMinPenetrationFaceNormalPolyhedron1 ? contactPointReferencePolyhedron : contactPointIncidentPolyhedron,
                              isMinPenetrationFaceNormalPolyhedron1 ? contactPointIncidentPolyhedron : contactPointReferencePolyhedron);
@@ -1068,6 +1088,8 @@ decimal SATAlgorithm::testFacesDirectionPolyhedronVsPolyhedron(const ConvexPolyh
             minFaceIndex = f;
         }
     }
+
+    assert(minPenetrationDepth < DECIMAL_LARGEST);
 
     return minPenetrationDepth;
 }

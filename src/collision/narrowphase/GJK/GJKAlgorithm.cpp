@@ -203,6 +203,7 @@ GJKAlgorithm::GJKResult GJKAlgorithm::testCollision(NarrowPhaseInfo* narrowPhase
                                                             penetrationDepth, normal);
 
             // Add a new contact point
+            assert(penetrationDepth < DECIMAL_LARGEST);
             narrowPhaseInfo->addContactPoint(normal, penetrationDepth, pA, pB);
         }
 

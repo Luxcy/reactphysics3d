@@ -64,6 +64,8 @@ NarrowPhaseInfo::~NarrowPhaseInfo() {
 void NarrowPhaseInfo::addContactPoint(const Vector3& contactNormal, decimal penDepth,
                      const Vector3& localPt1, const Vector3& localPt2) {
 
+    assert(penDepth < DECIMAL_LARGEST);
+
     assert(penDepth > decimal(0.0));
     assert(contactNormal.length() > decimal(0.8));
 

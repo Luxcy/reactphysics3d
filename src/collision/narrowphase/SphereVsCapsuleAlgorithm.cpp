@@ -127,6 +127,7 @@ bool SphereVsCapsuleAlgorithm::testCollision(NarrowPhaseInfo* narrowPhaseInfo, b
             }
 
             // Create the contact info object
+            assert(penetrationDepth < DECIMAL_LARGEST);
             narrowPhaseInfo->addContactPoint(normalWorld, penetrationDepth,
                                              isSphereShape1 ? contactPointSphereLocal : contactPointCapsuleLocal,
                                              isSphereShape1 ? contactPointCapsuleLocal : contactPointSphereLocal);

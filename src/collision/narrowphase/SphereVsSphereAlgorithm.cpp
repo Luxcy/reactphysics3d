@@ -81,6 +81,7 @@ bool SphereVsSphereAlgorithm::testCollision(NarrowPhaseInfo* narrowPhaseInfo, bo
 			}			
             
 			// Create the contact info object
+            assert(penetrationDepth < DECIMAL_LARGEST);
             narrowPhaseInfo->addContactPoint(normal, penetrationDepth, intersectionOnBody1, intersectionOnBody2);
         }
 

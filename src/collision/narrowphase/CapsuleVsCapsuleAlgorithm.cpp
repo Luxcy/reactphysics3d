@@ -142,7 +142,8 @@ bool CapsuleVsCapsuleAlgorithm::testCollision(NarrowPhaseInfo* narrowPhaseInfo, 
 				const Vector3 normalWorld = narrowPhaseInfo->shape2ToWorldTransform.getOrientation() * normalCapsule2SpaceNormalized;
 
 				// Create the contact info object
-				narrowPhaseInfo->addContactPoint(normalWorld, penetrationDepth, contactPointACapsule1Local, contactPointACapsule2Local);
+                assert(penetrationDepth < DECIMAL_LARGEST);
+                narrowPhaseInfo->addContactPoint(normalWorld, penetrationDepth, contactPointACapsule1Local, contactPointACapsule2Local);
 				narrowPhaseInfo->addContactPoint(normalWorld, penetrationDepth, contactPointBCapsule1Local, contactPointBCapsule2Local);
             }
 
@@ -179,7 +180,8 @@ bool CapsuleVsCapsuleAlgorithm::testCollision(NarrowPhaseInfo* narrowPhaseInfo, 
 				decimal penetrationDepth = sumRadius - closestPointsDistance;
 
 				// Create the contact info object
-				narrowPhaseInfo->addContactPoint(normalWorld, penetrationDepth, contactPointCapsule1Local, contactPointCapsule2Local);
+                assert(penetrationDepth < DECIMAL_LARGEST);
+                narrowPhaseInfo->addContactPoint(normalWorld, penetrationDepth, contactPointCapsule1Local, contactPointCapsule2Local);
 			}
 			else { // The segment are overlapping (degenerate case)
 
@@ -200,7 +202,8 @@ bool CapsuleVsCapsuleAlgorithm::testCollision(NarrowPhaseInfo* narrowPhaseInfo, 
 					const Vector3 normalWorld = narrowPhaseInfo->shape2ToWorldTransform.getOrientation() * normalCapsuleSpace2;
 
 					// Create the contact info object
-					narrowPhaseInfo->addContactPoint(normalWorld, sumRadius, contactPointCapsule1Local, contactPointCapsule2Local);
+                    assert(sumRadius < DECIMAL_LARGEST);
+                    narrowPhaseInfo->addContactPoint(normalWorld, sumRadius, contactPointCapsule1Local, contactPointCapsule2Local);
 				}
 				else {   // If the capsules inner segments are not parallel
 
@@ -216,7 +219,8 @@ bool CapsuleVsCapsuleAlgorithm::testCollision(NarrowPhaseInfo* narrowPhaseInfo, 
 					const Vector3 normalWorld = narrowPhaseInfo->shape2ToWorldTransform.getOrientation() * normalCapsuleSpace2;
 
 					// Create the contact info object
-					narrowPhaseInfo->addContactPoint(normalWorld, sumRadius, contactPointCapsule1Local, contactPointCapsule2Local);
+                    assert(sumRadius < DECIMAL_LARGEST);
+                    narrowPhaseInfo->addContactPoint(normalWorld, sumRadius, contactPointCapsule1Local, contactPointCapsule2Local);
 				}
 			}
 		}
