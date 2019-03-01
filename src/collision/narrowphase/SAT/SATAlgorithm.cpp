@@ -610,7 +610,8 @@ bool SATAlgorithm::testCollisionConvexPolyhedronVsConvexPolyhedron(NarrowPhaseIn
                 }
 
                 // If the shapes were overlapping on the previous axis and still seem to overlap in this frame
-                if (lastFrameCollisionInfo->wasColliding && penetrationDepth > decimal(0.0)) {
+                if (lastFrameCollisionInfo->wasColliding && penetrationDepth > decimal(0.0) &&
+                    penetrationDepth < DECIMAL_LARGEST) {
 
                     assert(penetrationDepth < DECIMAL_LARGEST);
 
